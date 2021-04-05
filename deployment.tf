@@ -1,7 +1,5 @@
 resource "kubernetes_deployment" "deployment" {
 
-    depends_on = [ kubernetes_persistent_volume_claim.prometheus ]
-
     metadata {
 
         name      = var.name

@@ -1,12 +1,14 @@
 data "external" "htpasswd" {
 
-    program = [ "jq", "-n", "--arg", "hash", "\"$(htpasswd -bn a b)\"", "{\"hash\":$hash}" ]
+    count = var.ingress_enabled && length(var.username) > 0 && length(var.password) > 0 ? 1 : 0
+
+    program = [ "${ path.module }/bin/generate-basicauth.sh", var.username, var.password ]
 
 }
 
 resource "kubernetes_secret" "auth" {
 
-    count = length(var.username) > 0 && length(var.password) > 0 ? 1 : 0
+    count = var.ingress_enabled && length(var.username) > 0 && length(var.password) > 0 ? 1 : 0
 
     metadata {
 
@@ -17,7 +19,7 @@ resource "kubernetes_secret" "auth" {
 
     data = {
 
-        auth = data.external.htpasswd.result.hash
+        auth = data.external.htpasswd.0.result.hash
 
     }
 

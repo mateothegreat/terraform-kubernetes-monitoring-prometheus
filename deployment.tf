@@ -79,6 +79,8 @@ resource "kubernetes_deployment" "deployment" {
                         "--config.file=/etc/prometheus/prometheus.yml",
                         "--storage.tsdb.path=/prometheus",
                         "--storage.tsdb.retention=${ var.retention }",
+                        "--storage.tsdb.min-block-duration=2h", // disable compaction to use thanos
+                        "--storage.tsdb.max-block-duration=2h", // disable compaction to use thanos
                         "--web.console.libraries=/usr/share/prometheus/console_libraries",
                         "--web.console.templates=/usr/share/prometheus/console",
                         "--web.external-url=http://localhost:19090/prometheus/"

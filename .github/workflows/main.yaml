@@ -46,5 +46,6 @@ jobs:
       - name: Update README.md module version with current tag
         uses: jacobtomlinson/gha-find-replace@master
         with:
-          find: version = "(.*?)"
-          replace: ${{ secrets.BRANCH_NAME }}
+          include: README.md
+          find: "0.0.2"
+          replace: ${{ env.BRANCH_NAME }}

@@ -180,7 +180,6 @@ resource "kubernetes_deployment" "deployment" {
                         "sidecar",
                         "--tsdb.path=/data",
                         "--log.level=debug",
-                        "--hash-func=SHA256",
                         "--prometheus.url=http://localhost:9090/prometheus",
                         "--objstore.config-file=/objstore.yaml"
 

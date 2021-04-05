@@ -94,7 +94,7 @@ provider "kubernetes-alpha" {
 module "monitoring-prometheus" {
   
     source  = "mateothegreat/monitoring-prometheus/kubernetes"
-    version = "0.0.2"
+    version = "replace me (see: https://registry.terraform.io/modules/mateothegreat/monitoring-prometheus/kubernetes/latest)"
 
     name            = "prometheus-1"
     retention       = "7d"

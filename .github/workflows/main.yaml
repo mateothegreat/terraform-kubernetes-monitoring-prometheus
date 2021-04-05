@@ -36,16 +36,3 @@ jobs:
         if: github.event_name == 'pull_request'
         shell: bash
         run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
-
-      - name: Run Bridgecrew
-        id: Bridgecrew
-        uses: bridgecrewio/bridgecrew-action@master
-        with:
-          api-key: ${{ secrets.BRIDGECREW_API_KEY }}
-
-      - name: Update README.md module version with current tag
-        uses: jacobtomlinson/gha-find-replace@master
-        with:
-          include: README.md
-          find: "0.0.2"
-          replace: ${{ env.BRANCH_NAME }}

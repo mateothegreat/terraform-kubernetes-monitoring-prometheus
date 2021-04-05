@@ -175,6 +175,15 @@ variable "ingress_whitelist" {
 
 }
 
+
+variable "thanos_image" {
+
+    type        = string
+    description = "thanos query image"
+    default     = "quay.io/thanos/thanos:v0.19.0"
+
+}
+
 variable "thanos_loadbalancer_enabled" {
 
     type        = bool

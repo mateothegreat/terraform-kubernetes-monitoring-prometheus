@@ -167,7 +167,7 @@ resource "kubernetes_deployment" "deployment" {
                 container {
 
                     name  = "thanos-sidecar"
-                    image = var.image
+                    image = var.thanos_image
 
                     security_context {
 

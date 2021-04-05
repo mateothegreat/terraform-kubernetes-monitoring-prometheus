@@ -77,7 +77,7 @@ resource "kubernetes_deployment" "deployment" {
                     args = [
 
                         "--config.file=/etc/prometheus/prometheus.yml",
-                        "--storage.tsdb.path=/prometheus",
+                        "--storage.tsdb.path=/data",
                         "--storage.tsdb.retention=${ var.retention }",
                         "--storage.tsdb.min-block-duration=2h", // disable compaction to use thanos
                         "--storage.tsdb.max-block-duration=2h", // disable compaction to use thanos
@@ -139,10 +139,17 @@ resource "kubernetes_deployment" "deployment" {
 
                     }
 
+#                    volume_mount {
+#
+#                        name       = "varlibprometheus"
+#                        mount_path = "/var/lib/prometheus"
+#
+#                    }
+
                     volume_mount {
 
-                        name       = "varlibprometheus"
-                        mount_path = "/var/lib/prometheus"
+                        name       = "data"
+                        mount_path = "/data"
 
                     }
 
@@ -157,15 +164,121 @@ resource "kubernetes_deployment" "deployment" {
 
                 }
 
-                volume {
+                container {
 
-                    name = "varlibprometheus"
+                    name  = "thanos-sidecar"
+                    image = var.image
 
-                    persistent_volume_claim {
+                    security_context {
 
-                        claim_name = kubernetes_persistent_volume_claim.prometheus.metadata.0.name
+                        run_as_user  = 65534
+                        run_as_group = 65534
 
                     }
+
+                    args = [
+
+                        "sidecar",
+                        "--tsdb.path=/data",
+                        "--log.level=debug",
+                        "--prometheus.url=http://localhost:9090",
+                        #                        "--objstore.config-file=/objstore.yaml"
+
+                    ]
+
+                    port {
+
+                        name           = "grpc"
+                        container_port = 10901
+
+                    }
+
+                    port {
+
+                        name           = "http1"
+                        container_port = 10902
+
+                    }
+
+                    liveness_probe {
+
+                        failure_threshold = 4
+
+                        http_get {
+
+                            path   = "/-/healthy"
+                            port   = 10902
+                            scheme = "HTTP"
+
+                        }
+
+                        period_seconds = 30
+
+                    }
+
+                    readiness_probe {
+
+                        failure_threshold = 20
+
+                        http_get {
+
+                            path   = "/-/healthy"
+                            port   = 10902
+                            scheme = "HTTP"
+
+                        }
+
+                        period_seconds = 5
+
+                    }
+
+                    resources {
+
+                        requests = {
+
+                            cpu    = var.request_cpu
+                            memory = var.request_memory
+
+                        }
+
+                        limits = {
+
+                            cpu    = var.limit_cpu
+                            memory = var.limit_memory
+
+                        }
+
+                    }
+
+                    volume_mount {
+
+                        name       = "objstore-conf"
+                        mount_path = "/objstore.yaml"
+                        sub_path   = "objstore.yaml"
+                        read_only  = true
+
+                    }
+
+                    volume_mount {
+
+                        name       = "data"
+                        mount_path = "/data"
+
+                    }
+
+                }
+
+                volume {
+
+                    name = "data"
+
+                    empty_dir {}
+
+#                    persistent_volume_claim {
+#
+#                        claim_name = kubernetes_persistent_volume_claim.prometheus.metadata.0.name
+#
+#                    }
 
                 }
 

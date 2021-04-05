@@ -8,3 +8,4 @@ resource "kubernetes_service_account" "prometheus" {
     }
 
 }
+

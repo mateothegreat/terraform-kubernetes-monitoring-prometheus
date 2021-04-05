@@ -161,9 +161,17 @@ variable "loadbalancer_internal" {
 
 variable "ingress_enabled" {
 
-    type = bool
+    type        = bool
     description = "if enabled creates an ingress mapping at /promtetheus (requires an ingress-controller)"
-    default = false
+    default     = false
+
+}
+
+variable "ingress_whitelist" {
+
+    type        = string
+    description = "comma-delimited cidr block(s) to lock the ingress down to"
+    default     = "0.0.0.0/0"
 
 }
 
@@ -193,8 +201,8 @@ variable "replicas" {
 
 variable "aws_resource_tags" {
 
-    type = map(string)
+    type        = map(string)
     description = "tags for resources created in AWS (i.e.: EBS volumes, etc.)"
-    default = null
+    default     = null
 
 }

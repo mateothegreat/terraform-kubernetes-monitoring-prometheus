@@ -9,9 +9,10 @@ resource "kubernetes_ingress" "ingress" {
 
         annotations = {
 
-            "nginx.ingress.kubernetes.io/auth-type"   = "basic"
-            "nginx.ingress.kubernetes.io/auth-secret" = length(var.username) > 0 && length(var.password) > 0 ? "${ var.name }-basicauth" : null
-            "nginx.ingress.kubernetes.io/auth-realm"  = "Authentication Required"
+            "nginx.ingress.kubernetes.io/whitelist-source-range" = var.ingress_whitelist
+            "nginx.ingress.kubernetes.io/auth-type"              = "basic"
+            "nginx.ingress.kubernetes.io/auth-secret"            = length(var.username) > 0 && length(var.password) > 0 ? "${ var.name }-basicauth" : null
+            "nginx.ingress.kubernetes.io/auth-realm"             = "Authentication Required"
 
         }
 

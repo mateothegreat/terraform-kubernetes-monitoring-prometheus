@@ -96,23 +96,19 @@ module "monitoring-prometheus" {
   
     source  = "mateothegreat/monitoring-prometheus/kubernetes"
     version = "replace me (see: https://registry.terraform.io/modules/mateothegreat/monitoring-prometheus/kubernetes/latest)"
-
-    name            = "prometheus-1"
-    retention       = "7d"
-    namespace       = "m-1"
-    storage_gb      = 20
-    limit_memory    = "1024Mi"
-    scrape_interval = "5s"
-    username        = "admin"
-    password        = "password"
-    ingress_enabled = true
     
-    #    
-    # Lock your prometheus down to your own cidr!
-    #
-    ingres_whitelist = "1.2.3.4/32"
-
-    node_selector = {
+    name              = "prometheus-1"
+    namespace         = "m-1"
+    retention         = "7d"
+    block_duration    = "30s"
+    limit_memory      = "1024Mi"
+    scrape_interval   = "5s"
+    username          = "admin"
+    password          = "password"
+    ingress_enabled   = true
+    ingress_whitelist = "1.2.3.4/32"
+    thanos_image      = "quay.io/thanos/thanos:v0.19.0"
+    node_selector     = {
 
         role = "infra"
 
@@ -120,11 +116,24 @@ module "monitoring-prometheus" {
 
     external_labels = {
 
-        cluster = "my-cluster-2"
-        product = "api beep boop"
+        product     = "acmebrickz"
+        environment = "onlyinprod"
 
     }
 
+    objstore_config = <<YAML
+        type: S3
+        config:
+          bucket: ***
+          endpoint: s3.us-east-1.amazonaws.com
+          access_key: ***
+          secret_key: ***
+          http_config:
+            idle_conn_timeout: 90s
+            response_header_timeout: 2m
+            insecure_skip_verify: false
+    YAML
+    
 }
 ```
 
@@ -142,7 +151,6 @@ module "monitoring-prometheus" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.30.0 |
 | <a name="provider_external"></a> [external](#provider\_external) | n/a |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.0.0 |
 
@@ -154,18 +162,15 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_ebs_volume.prometheus](https://registry.terraform.io/providers/hashicorp/aws/3.30.0/docs/resources/ebs_volume) | resource |
 | [kubernetes_cluster_role.prometheus](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/cluster_role) | resource |
 | [kubernetes_cluster_role_binding.prometheus](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/cluster_role_binding) | resource |
 | [kubernetes_config_map.global-config](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/config_map) | resource |
 | [kubernetes_deployment.deployment](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/deployment) | resource |
 | [kubernetes_ingress.ingress](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/ingress) | resource |
-| [kubernetes_persistent_volume.prometheus](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/persistent_volume) | resource |
-| [kubernetes_persistent_volume_claim.prometheus](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/persistent_volume_claim) | resource |
 | [kubernetes_secret.auth](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/secret) | resource |
+| [kubernetes_secret.obstore-config](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/secret) | resource |
 | [kubernetes_service.prometheus](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/service) | resource |
 | [kubernetes_service_account.prometheus](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/service_account) | resource |
-| [kubernetes_storage_class.expandable](https://registry.terraform.io/providers/hashicorp/kubernetes/2.0.0/docs/resources/storage_class) | resource |
 | [external_external.htpasswd](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 
 ## Inputs
@@ -173,6 +178,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_resource_tags"></a> [aws\_resource\_tags](#input\_aws\_resource\_tags) | tags for resources created in AWS (i.e.: EBS volumes, etc.) | `map(string)` | `null` | no |
+| <a name="input_block_duration"></a> [block\_duration](#input\_block\_duration) | block duration period (i.e.: 6h) | `string` | `"15m"` | no |
 | <a name="input_external_labels"></a> [external\_labels](#input\_external\_labels) | labels to add to metrics when queried externally | `map(string)` | `null` | no |
 | <a name="input_image"></a> [image](#input\_image) | https://github.com/prometheus/prometheus/releases | `string` | `"quay.io/prometheus/prometheus:v2.25.2"` | no |
 | <a name="input_ingress_enabled"></a> [ingress\_enabled](#input\_ingress\_enabled) | if enabled creates an ingress mapping at /promtetheus (requires an ingress-controller) | `bool` | `false` | no |
@@ -184,20 +190,15 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | prometheus operated name | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | prometheus operated namespace | `string` | n/a | yes |
 | <a name="input_node_selector"></a> [node\_selector](#input\_node\_selector) | labels to determine which node we run on | `map(string)` | `{}` | no |
+| <a name="input_objstore_config"></a> [objstore\_config](#input\_objstore\_config) | s3 configig | `string` | `null` | no |
 | <a name="input_password"></a> [password](#input\_password) | username to login with (basic auth) | `string` | n/a | yes |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | number of replicas | `number` | `1` | no |
 | <a name="input_request_cpu"></a> [request\_cpu](#input\_request\_cpu) | requested cpu | `string` | `"200m"` | no |
 | <a name="input_request_memory"></a> [request\_memory](#input\_request\_memory) | requested memory | `string` | `"200Mi"` | no |
 | <a name="input_retention"></a> [retention](#input\_retention) | retention period (i.e.: 6h) | `string` | `"24h"` | no |
-| <a name="input_s3_aws_access_key_id"></a> [s3\_aws\_access\_key\_id](#input\_s3\_aws\_access\_key\_id) | n/a | `string` | `""` | no |
-| <a name="input_s3_aws_secret_access_key"></a> [s3\_aws\_secret\_access\_key](#input\_s3\_aws\_secret\_access\_key) | n/a | `string` | `""` | no |
-| <a name="input_s3_bucket"></a> [s3\_bucket](#input\_s3\_bucket) | n/a | `string` | `""` | no |
-| <a name="input_s3_endpoint"></a> [s3\_endpoint](#input\_s3\_endpoint) | n/a | `string` | `"s3.us-east-1.amazonaws.com"` | no |
 | <a name="input_scrape_interval"></a> [scrape\_interval](#input\_scrape\_interval) | how often to scrape targets | `string` | `"10s"` | no |
 | <a name="input_scrape_timeout"></a> [scrape\_timeout](#input\_scrape\_timeout) | how long to wait for a scrape to occur | `string` | `"5s"` | no |
-| <a name="input_storage_gb"></a> [storage\_gb](#input\_storage\_gb) | storage amount for prometheus (minimum 20Gi for AWS) | `number` | `20` | no |
-| <a name="input_thanos_loadbalancer_enabled"></a> [thanos\_loadbalancer\_enabled](#input\_thanos\_loadbalancer\_enabled) | if enabled creates a LoadBalancer service to access the (thanos) prometheus ui/api | `bool` | `false` | no |
-| <a name="input_thanos_loadbalancer_internal"></a> [thanos\_loadbalancer\_internal](#input\_thanos\_loadbalancer\_internal) | if enabled creates a LoadBalancer service to access the (thanos) prometheus ui/api | `bool` | `false` | no |
+| <a name="input_thanos_image"></a> [thanos\_image](#input\_thanos\_image) | thanos query image | `string` | `"quay.io/thanos/thanos:v0.19.0"` | no |
 | <a name="input_username"></a> [username](#input\_username) | username to login with (basic auth) | `string` | n/a | yes |
 
 ## Outputs

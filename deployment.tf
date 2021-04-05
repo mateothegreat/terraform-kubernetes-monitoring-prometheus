@@ -57,12 +57,12 @@ resource "kubernetes_deployment" "deployment" {
 
                     name    = "permissions"
                     image   = "busybox"
-                    command = [ "sh", "-c", "chown -R 472:472 /var/lib/prometheus" ]
+                    command = [ "sh", "-c", "chown -R 472:472 /data" ]
 
                     volume_mount {
 
-                        name       = "varlibprometheus"
-                        mount_path = "/var/lib/prometheus"
+                        name       = "data"
+                        mount_path = "/data"
 
                     }
 

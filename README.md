@@ -9,7 +9,7 @@
 
 ### Preparing to run the module
 
-```hcl-terraform
+```hcl
 variable "cluster_name" {
 
     type        = string
@@ -74,7 +74,7 @@ provider "kubernetes-alpha" {
 
 ### Usage
 
-```hcl-terraform
+```hcl
 module "prometheus" {
 
     source = "../"

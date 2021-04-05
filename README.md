@@ -1,11 +1,27 @@
+```
+
+       /$$                                                                          /$$                 /$$      
+      | $$                                                                         | $$                | $$      
+  /$$$$$$$  /$$$$$$  /$$    /$$ /$$$$$$   /$$$$$$   /$$$$$$$     /$$$$$$   /$$$$$$ | $$$$$$$   /$$$$$$ | $$$$$$$ 
+ /$$__  $$ /$$__  $$|  $$  /$$//$$__  $$ /$$__  $$ /$$_____/    /$$__  $$ /$$__  $$| $$__  $$ |____  $$| $$__  $$
+| $$  | $$| $$$$$$$$ \  $$/$$/| $$  \ $$| $$  \ $$|  $$$$$$    | $$  \__/| $$$$$$$$| $$  \ $$  /$$$$$$$| $$  \ $$
+| $$  | $$| $$_____/  \  $$$/ | $$  | $$| $$  | $$ \____  $$   | $$      | $$_____/| $$  | $$ /$$__  $$| $$  | $$
+|  $$$$$$$|  $$$$$$$   \  $/  |  $$$$$$/| $$$$$$$/ /$$$$$$$//$$| $$      |  $$$$$$$| $$  | $$|  $$$$$$$| $$$$$$$/
+ \_______/ \_______/    \_/    \______/ | $$____/ |_______/|__/|__/       \_______/|__/  |__/ \_______/|_______/ 
+                                        | $$                                                                     
+                                        | $$                                                                     
+                                        |__/                                                                     
+```
+
+
 # Prometheus' deployment kit for production instrumented by Terraform
 
-* Configurable internal only or public NLB for public accessibility.
+* Configurable internal only or public NLB for public accessibility 🌐.
 * Supports dynamically expanding the storage volume (if needed).
 * Uses persistent storage to retain data between re-scheduling.
 * Supports HTTP ingress routing for external access without requiring an
   additional LoadBalancer (optional)
-* Supports HTTP Basic Auth for accessing the prometheus API & UI 🔐
+* Supports HTTP Basic Auth for accessing the prometheus API & UI 🔐.
 
 ### Preparing to run the module
 
@@ -106,5 +122,16 @@ module "prometheus" {
 ```
 
 ---
+
+
+```
+
+    _ __           _       __                          
+   (_) /_   ____ _(_)___  / /_   ___  ____ ________  __
+  / / __/  / __ `/ / __ \/ __/  / _ \/ __ `/ ___/ / / /
+ / / /_   / /_/ / / / / / /_   /  __/ /_/ (__  ) /_/ / 
+/_/\__/   \__,_/_/_/ /_/\__/   \___/\__,_/____/\__, /  
+                                              /____/   
+```
 
 https://matthewdavis.io

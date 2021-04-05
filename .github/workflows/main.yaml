@@ -1,0 +1,44 @@
+name: Production Build
+
+on:
+
+  push:
+
+    branches:
+      - main
+      - prod
+      - staging
+
+  workflow_dispatch:
+
+  repository_dispatch:
+
+    types: [ automation ]
+
+jobs:
+
+  build:
+
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed') || github.event_name == 'repository_dispatch' || github.event_name == 'workflow_dispatch'
+
+    runs-on: self-hosted
+
+    steps:
+
+      - uses: actions/checkout@v1
+
+      - name: Get branch name (merge)
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+
+      - name: Get branch name (pull request)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
+
+      - name: Run Bridgecrew
+        id: Bridgecrew
+        uses: bridgecrewio/bridgecrew-action@master
+        with:
+          api-key: ${{ secrets.BRIDGECREW_API_KEY }}

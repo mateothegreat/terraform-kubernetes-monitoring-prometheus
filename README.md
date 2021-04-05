@@ -22,6 +22,7 @@ https://devops.rehab/docs/terraform | https://matthewdavis.io
 * Supports HTTP ingress routing for external access without requiring an
   additional LoadBalancer (optional)
 * Supports HTTP Basic Auth for accessing the prometheus API & UI 🔐.
+* Restrict HTTP access by ip block(s) (optional).
 
 ### Preparing to run the module
 

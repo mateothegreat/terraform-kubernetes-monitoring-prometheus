@@ -57,7 +57,7 @@ resource "kubernetes_deployment" "deployment" {
 
                     name    = "permissions"
                     image   = "busybox"
-                    command = [ "sh", "-c", "chown -R 472:472 /data" ]
+                    command = [ "sh", "-c", "chown -R 65534:65534 /data" ]
 
                     volume_mount {
 
@@ -79,8 +79,8 @@ resource "kubernetes_deployment" "deployment" {
                         "--config.file=/etc/prometheus/prometheus.yml",
                         "--storage.tsdb.path=/data",
                         "--storage.tsdb.retention=${ var.retention }",
-                        "--storage.tsdb.min-block-duration=30s", // disable compaction to use thanos
-                        "--storage.tsdb.max-block-duration=30s", // disable compaction to use thanos
+                        "--storage.tsdb.min-block-duration=${ var.block_duration }", // disable compaction to use thanos
+                        "--storage.tsdb.max-block-duration=${ var.block_duration }", // disable compaction to use thanos
                         "--web.enable-lifecycle",
                         "--web.console.libraries=/usr/share/prometheus/console_libraries",
                         "--web.console.templates=/usr/share/prometheus/console",
@@ -90,7 +90,8 @@ resource "kubernetes_deployment" "deployment" {
 
                     security_context {
 
-                        run_as_user = 0
+                        run_as_user  = 65534
+                        run_as_group = 65534
 
                     }
 
@@ -140,13 +141,6 @@ resource "kubernetes_deployment" "deployment" {
 
                     }
 
-                    #                    volume_mount {
-                    #
-                    #                        name       = "varlibprometheus"
-                    #                        mount_path = "/var/lib/prometheus"
-                    #
-                    #                    }
-
                     volume_mount {
 
                         name       = "data"
@@ -172,7 +166,8 @@ resource "kubernetes_deployment" "deployment" {
 
                     security_context {
 
-                        run_as_user  = 0
+                        run_as_user  = 65534
+                        run_as_group = 65534
 
                     }
 
@@ -274,12 +269,6 @@ resource "kubernetes_deployment" "deployment" {
 
                     empty_dir {}
 
-                    #                    persistent_volume_claim {
-                    #
-                    #                        claim_name = kubernetes_persistent_volume_claim.prometheus.metadata.0.name
-                    #
-                    #                    }
-
                 }
 
                 volume {
@@ -300,7 +289,6 @@ resource "kubernetes_deployment" "deployment" {
                     }
 
                 }
-
 
                 volume {
 

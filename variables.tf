@@ -34,35 +34,6 @@ variable "external_labels" {
 
 }
 
-variable "s3_aws_access_key_id" {
-
-    type    = string
-    default = ""
-
-}
-
-variable "s3_aws_secret_access_key" {
-
-    type    = string
-    default = ""
-
-}
-
-variable "s3_bucket" {
-
-    type    = string
-    default = ""
-
-}
-
-variable "s3_endpoint" {
-
-    type    = string
-    default = "s3.us-east-1.amazonaws.com"
-
-}
-
-
 variable "request_cpu" {
 
     type        = string
@@ -103,19 +74,19 @@ variable "retention" {
 
 }
 
+variable "block_duration" {
+
+    type        = string
+    description = "block duration period (i.e.: 6h)"
+    default     = "15m"
+
+}
+
 variable "image" {
 
     type        = string
     description = "https://github.com/prometheus/prometheus/releases"
     default     = "quay.io/prometheus/prometheus:v2.25.2"
-
-}
-
-variable "storage_gb" {
-
-    type        = number
-    description = "storage amount for prometheus (minimum 20Gi for AWS)"
-    default     = 20
 
 }
 
@@ -184,22 +155,6 @@ variable "thanos_image" {
 
 }
 
-variable "thanos_loadbalancer_enabled" {
-
-    type        = bool
-    description = "if enabled creates a LoadBalancer service to access the (thanos) prometheus ui/api"
-    default     = false
-
-}
-
-variable "thanos_loadbalancer_internal" {
-
-    type        = bool
-    description = "if enabled creates a LoadBalancer service to access the (thanos) prometheus ui/api"
-    default     = false
-
-}
-
 variable "replicas" {
 
     type        = number
@@ -219,45 +174,8 @@ variable "aws_resource_tags" {
 
 variable "objstore_config" {
 
-    #    type = object({
-    #
-    #        type   = string
-    #        config = object({
-    #
-    #            bucket     = string
-    #            endpoint   = string
-    #            access_key = string
-    #            secret_key = string
-    #
-    #            sse_config = map(string)
-    #
-    #        })
-    #
-    #    })
-
-    description = <<EOF
-    {
-
-        type = "s3"
-
-        config = {
-
-            bucket     = ""
-            endpoint   = ""
-            access_key = ""
-            secret_key = ""
-
-            sse_config = {
-
-                type = "SSE-S3"
-
-            }
-
-        }
-
-    }
-    EOF
-
-    default = null
+    type        = string
+    description = "s3 configig"
+    default     = null
 
 }

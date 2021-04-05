@@ -250,14 +250,14 @@ resource "kubernetes_deployment" "deployment" {
 
                     }
 
-                    volume_mount {
-
-                        name       = "objstore-conf"
-                        mount_path = "/objstore.yaml"
-                        sub_path   = "objstore.yaml"
-                        read_only  = true
-
-                    }
+#                    volume_mount {
+#
+#                        name       = "objstore-conf"
+#                        mount_path = "/objstore.yaml"
+#                        sub_path   = "objstore.yaml"
+#                        read_only  = true
+#
+#                    }
 
                     volume_mount {
 

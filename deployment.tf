@@ -139,12 +139,12 @@ resource "kubernetes_deployment" "deployment" {
 
                     }
 
-#                    volume_mount {
-#
-#                        name       = "varlibprometheus"
-#                        mount_path = "/var/lib/prometheus"
-#
-#                    }
+                    #                    volume_mount {
+                    #
+                    #                        name       = "varlibprometheus"
+                    #                        mount_path = "/var/lib/prometheus"
+                    #
+                    #                    }
 
                     volume_mount {
 
@@ -182,7 +182,7 @@ resource "kubernetes_deployment" "deployment" {
                         "--tsdb.path=/data",
                         "--log.level=debug",
                         "--prometheus.url=http://localhost:9090/prometheus",
-                        #                        "--objstore.config-file=/objstore.yaml"
+                        "--objstore.config-file=/objstore.yaml"
 
                     ]
 
@@ -250,14 +250,14 @@ resource "kubernetes_deployment" "deployment" {
 
                     }
 
-#                    volume_mount {
-#
-#                        name       = "objstore-conf"
-#                        mount_path = "/objstore.yaml"
-#                        sub_path   = "objstore.yaml"
-#                        read_only  = true
-#
-#                    }
+                    volume_mount {
+
+                        name       = "objstore-conf"
+                        mount_path = "/objstore.yaml"
+                        sub_path   = "objstore.yaml"
+                        read_only  = true
+
+                    }
 
                     volume_mount {
 
@@ -274,11 +274,11 @@ resource "kubernetes_deployment" "deployment" {
 
                     empty_dir {}
 
-#                    persistent_volume_claim {
-#
-#                        claim_name = kubernetes_persistent_volume_claim.prometheus.metadata.0.name
-#
-#                    }
+                    #                    persistent_volume_claim {
+                    #
+                    #                        claim_name = kubernetes_persistent_volume_claim.prometheus.metadata.0.name
+                    #
+                    #                    }
 
                 }
 
@@ -294,6 +294,25 @@ resource "kubernetes_deployment" "deployment" {
 
                             key  = "prometheus.yaml"
                             path = "prometheus.yml"
+
+                        }
+
+                    }
+
+                }
+
+
+                volume {
+
+                    name = "objstore-conf"
+
+                    secret {
+
+                        secret_name = "${ var.name }-objstore-conf"
+                        items {
+
+                            key  = "objstore.yaml"
+                            path = "objstore.yaml"
 
                         }
 

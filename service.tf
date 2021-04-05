@@ -32,8 +32,25 @@ resource "kubernetes_service" "prometheus" {
 
         port {
 
+            name        = "prom"
             port        = 9090
             target_port = 9090
+
+        }
+
+        port {
+
+            name        = "gprc"
+            port        = 10901
+            target_port = 10901
+
+        }
+
+        port {
+
+            name        = "http"
+            port        = 10902
+            target_port = 10902
 
         }
 

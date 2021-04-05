@@ -215,3 +215,49 @@ variable "aws_resource_tags" {
     default     = null
 
 }
+
+
+variable "objstore_config" {
+
+    #    type = object({
+    #
+    #        type   = string
+    #        config = object({
+    #
+    #            bucket     = string
+    #            endpoint   = string
+    #            access_key = string
+    #            secret_key = string
+    #
+    #            sse_config = map(string)
+    #
+    #        })
+    #
+    #    })
+
+    description = <<EOF
+    {
+
+        type = "s3"
+
+        config = {
+
+            bucket     = ""
+            endpoint   = ""
+            access_key = ""
+            secret_key = ""
+
+            sse_config = {
+
+                type = "SSE-S3"
+
+            }
+
+        }
+
+    }
+    EOF
+
+    default = null
+
+}

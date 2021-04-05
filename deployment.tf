@@ -171,8 +171,7 @@ resource "kubernetes_deployment" "deployment" {
 
                     security_context {
 
-                        run_as_user  = 65534
-                        run_as_group = 65534
+                        run_as_user  = 0
 
                     }
 
@@ -180,7 +179,7 @@ resource "kubernetes_deployment" "deployment" {
 
                         "sidecar",
                         "--tsdb.path=/data",
-                        "--log.level=debug",
+                        "--log.level=trace",
                         "--prometheus.url=http://localhost:9090/prometheus",
                         "--objstore.config-file=/objstore.yaml"
 

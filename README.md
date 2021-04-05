@@ -106,6 +106,11 @@ module "monitoring-prometheus" {
     username        = "admin"
     password        = "password"
     ingress_enabled = true
+    
+    #    
+    # Lock your prometheus down to your own cidr!
+    #
+    ingres_whitelist = "1.2.3.4/32"
 
     node_selector = {
 
@@ -125,7 +130,6 @@ module "monitoring-prometheus" {
 
 ---
 <!-- BEGIN_TF_DOCS -->
-
 ## Requirements
 
 | Name | Version |
@@ -172,6 +176,7 @@ No modules.
 | <a name="input_external_labels"></a> [external\_labels](#input\_external\_labels) | labels to add to metrics when queried externally | `map(string)` | `null` | no |
 | <a name="input_image"></a> [image](#input\_image) | https://github.com/prometheus/prometheus/releases | `string` | `"quay.io/prometheus/prometheus:v2.25.2"` | no |
 | <a name="input_ingress_enabled"></a> [ingress\_enabled](#input\_ingress\_enabled) | if enabled creates an ingress mapping at /promtetheus (requires an ingress-controller) | `bool` | `false` | no |
+| <a name="input_ingress_whitelist"></a> [ingress\_whitelist](#input\_ingress\_whitelist) | comma-delimited cidr block(s) to lock the ingress down to | `string` | `"0.0.0.0/0"` | no |
 | <a name="input_limit_cpu"></a> [limit\_cpu](#input\_limit\_cpu) | cpu limit | `string` | `"250m"` | no |
 | <a name="input_limit_memory"></a> [limit\_memory](#input\_limit\_memory) | memory limit | `string` | `"250Mi"` | no |
 | <a name="input_loadbalancer_enabled"></a> [loadbalancer\_enabled](#input\_loadbalancer\_enabled) | if enabled creates a LoadBalancer service to access the prometheus ui/api | `bool` | `false` | no |

@@ -91,9 +91,10 @@ provider "kubernetes-alpha" {
 ### Usage
 
 ```hcl
-module "prometheus" {
-
-    source = "../"
+module "monitoring-prometheus" {
+  
+    source  = "mateothegreat/monitoring-prometheus/kubernetes"
+    version = "0.0.2"
 
     name            = "prometheus-1"
     retention       = "7d"

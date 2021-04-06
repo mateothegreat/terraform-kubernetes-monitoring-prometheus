@@ -141,8 +141,35 @@ module "monitoring-prometheus" {
     
 }
 ```
+## S3
+
+In order for thanos-sidecar to upload prometheus data to S3 you need to setup
+a policy like this and update the credentials (above) assigned to it:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:DeleteObject",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<bucket>/*",
+                "arn:aws:s3:::<bucket>"
+            ]
+        }
+    ]
+}
+```
 
 ---
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

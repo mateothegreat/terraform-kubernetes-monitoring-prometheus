@@ -20,7 +20,7 @@
                        └──────────────────────────────────┘
 ```
 
-* Integrated sidecar with Thanos + uploads to S3/GCP/etc.
+* Integrated sidecar with [Thanos](https://thanos.io) + uploads to S3/GCP/etc.
 * Configurable internal only or public NLB for public accessibility 🌐.
 * Supports dynamically expanding the storage volume (if needed).
 * Uses persistent storage to retain data between re-scheduling.

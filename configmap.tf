@@ -132,6 +132,44 @@ resource "kubernetes_config_map" "global-config" {
 
                     ]
 
+                }, {
+
+                    job_name = "kubernetes-ingresses"
+
+                    kubernetes_sd_configs = [
+
+                        {
+
+                            role = "ingress"
+
+                        }
+
+                    ]
+
+                    relabel_configs = [
+
+                        {
+
+                            source_labels = [ "__meta_kubernetes_ingress_scheme", "__address__", "__meta_kubernetes_ingress_path" ]
+                            regex         = "(.+);(.+);(.+)"
+                            replacement   = "${1}://${2}${3}"
+                            target_label  = "__param_target"
+
+                        }, {
+
+                            source_labels = [ "__param_target" ]
+                            target_label  = "instance"
+
+                        }, {
+
+                            source_labels = [ "__meta_kubernetes_namespace" ]
+                            action        = "replace"
+                            target_label  = "namespace"
+
+                        }
+
+                    ]
+
                 }
 
             ]
@@ -141,3 +179,4 @@ resource "kubernetes_config_map" "global-config" {
     }
 
 }
+

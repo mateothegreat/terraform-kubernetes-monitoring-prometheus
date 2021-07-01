@@ -19,7 +19,7 @@ resource "kubernetes_config_map" "global-config" {
 
             }
 
-            scrape_configs = [
+            scrape_configs = concat(var.additional_scrape_configs, [
 
                 #                {
                 #

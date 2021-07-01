@@ -182,7 +182,6 @@ variable "objstore_config" {
 
 variable "additional_scrape_configs" {
 
-    type = list(object)
     description = "additional scrape configs (see: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)"
     default = null
 

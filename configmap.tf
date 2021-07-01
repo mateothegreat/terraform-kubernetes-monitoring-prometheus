@@ -172,7 +172,7 @@ resource "kubernetes_config_map" "global-config" {
 
                 }
 
-            ]
+            ])
 
         })
 

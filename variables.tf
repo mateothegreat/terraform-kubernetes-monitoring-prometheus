@@ -186,3 +186,11 @@ variable "additional_scrape_configs" {
     default = null
 
 }
+
+variable "volume_size" {
+
+    type = string
+    description = "persistent volume size"
+    default = "10Gi"
+
+}

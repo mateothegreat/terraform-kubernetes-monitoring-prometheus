@@ -265,10 +265,9 @@ resource "kubernetes_deployment" "deployment" {
 
                     name = "data"
 
-                    aws_elastic_block_store {
+                    persistent_volume_claim {
 
-                        volume_id = aws_ebs_volume.data.id
-                        fs_type   = "ext4"
+                        claim_name = var.name
 
                     }
 

@@ -268,6 +268,7 @@ resource "kubernetes_deployment" "deployment" {
                     aws_elastic_block_store {
 
                         volume_id = aws_ebs_volume.data.id
+                        fs_type   = "ext4"
 
                     }
 

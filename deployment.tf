@@ -265,7 +265,11 @@ resource "kubernetes_deployment" "deployment" {
 
                     name = "data"
 
-                    empty_dir {}
+                    aws_elastic_block_store {
+
+                        volume_id = aws_ebs_volume.data.id
+
+                    }
 
                 }
 

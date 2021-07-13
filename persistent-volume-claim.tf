@@ -9,7 +9,7 @@ resource "kubernetes_persistent_volume_claim" "data" {
 
     spec {
 
-        storage_class_name = "ebs-sc"
+        storage_class_name = "gp2"
 
         access_modes = [ "ReadWriteOnce" ]
 

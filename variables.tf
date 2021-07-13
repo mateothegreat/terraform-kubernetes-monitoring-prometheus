@@ -16,7 +16,7 @@ variable "username" {
 
     type        = string
     description = "username to login with (basic auth)"
-    default     = null
+    default     = ""
 
 }
 
@@ -24,7 +24,7 @@ variable "password" {
 
     type        = string
     description = "username to login with (basic auth)"
-    default     = null
+    default     = ""
 
 }
 

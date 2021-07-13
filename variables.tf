@@ -16,6 +16,7 @@ variable "username" {
 
     type        = string
     description = "username to login with (basic auth)"
+    default     = null
 
 }
 
@@ -23,6 +24,7 @@ variable "password" {
 
     type        = string
     description = "username to login with (basic auth)"
+    default     = null
 
 }
 
@@ -94,7 +96,7 @@ variable "scrape_interval" {
 
     type        = string
     description = "how often to scrape targets"
-    default     = "10s"
+    default     = "15s"
 
 }
 
@@ -183,14 +185,14 @@ variable "objstore_config" {
 variable "additional_scrape_configs" {
 
     description = "additional scrape configs (see: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)"
-    default = null
+    default     = null
 
 }
 
 variable "volume_size" {
 
-    type = string
+    type        = string
     description = "persistent volume size"
-    default = "10Gi"
+    default     = "10Gi"
 
 }

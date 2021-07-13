@@ -9,7 +9,7 @@ resource "kubernetes_cluster_role" "prometheus" {
     rule {
 
         api_groups = [ "" ]
-        resources  = [ "nodes", "services", "endpoints", "pods" ]
+        resources  = [ "nodes", "services", "endpoints", "pods", "ingresses" ]
         verbs      = [ "get", "list", "watch" ]
 
     }

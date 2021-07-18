@@ -1,11 +1,5 @@
 resource "kubernetes_persistent_volume_claim" "data" {
 
-    depends_on = [
-
-        kubernetes_deployment.deployment
-
-    ]
-
     metadata {
 
         namespace = var.namespace

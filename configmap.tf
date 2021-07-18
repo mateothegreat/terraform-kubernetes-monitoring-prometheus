@@ -86,7 +86,6 @@ resource "kubernetes_config_map" "global-config" {
                             source_labels = [ "__address__", "__meta_kubernetes_pod_annotation_prometheus_io_port" ]
                             action        = "replace"
                             regex         = "([^:]+)(?::\\d+)?;(\\d+)"
-                            #                            regex         = "(.*?):.*?;(\\d+)"
                             replacement   = "$1:$2"
                             target_label  = "__address__"
 

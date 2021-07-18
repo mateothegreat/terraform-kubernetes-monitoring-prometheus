@@ -70,7 +70,6 @@ resource "kubernetes_deployment" "deployment" {
 
                     name              = var.name
                     image             = var.image
-                    image_pull_policy = "IfNotPresent"
 
                     args = [
 
@@ -265,12 +264,6 @@ resource "kubernetes_deployment" "deployment" {
 
                     name = "data"
 
-#                    aws_elastic_block_store {
-#
-#                        volume_id = aws_ebs_volume.data.id
-#
-#                    }
-#
                     persistent_volume_claim {
 
                         claim_name = var.name

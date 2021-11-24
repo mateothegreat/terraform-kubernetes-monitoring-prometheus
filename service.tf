@@ -14,7 +14,7 @@ resource "kubernetes_service" "prometheus" {
         annotations = {
 
             "service.beta.kubernetes.io/aws-load-balancer-type"     = "nlb"
-            "service.beta.kubernetes.io/aws-load-balancer-internal" = var.loadbalancer_internal ? "true" : null
+            "service.beta.kubernetes.io/aws-load-balancer-internal" = "true"
 
         }
 
@@ -22,7 +22,7 @@ resource "kubernetes_service" "prometheus" {
 
     spec {
 
-        type = var.loadbalancer_enabled ? "LoadBalancer" : "ClusterIP"
+        type = "LoadBalancer"
 
         selector = {
 

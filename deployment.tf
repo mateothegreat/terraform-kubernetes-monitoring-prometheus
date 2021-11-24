@@ -68,8 +68,8 @@ resource "kubernetes_deployment" "deployment" {
 
                 container {
 
-                    name              = var.name
-                    image             = var.image
+                    name  = var.name
+                    image = var.image
 
                     args = [
 
@@ -173,7 +173,7 @@ resource "kubernetes_deployment" "deployment" {
                         "sidecar",
                         "--tsdb.path=/data",
                         "--log.level=debug",
-                        "--prometheus.url=http://localhost:9090/prometheus",
+                        "--prometheus.url=http://prometheus-1:9090/prometheus",
                         "--objstore.config-file=/objstore.yaml"
 
                     ]

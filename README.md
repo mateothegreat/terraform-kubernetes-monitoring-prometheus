@@ -24,10 +24,13 @@
 * Configurable internal only or public NLB for public accessibility 🌐.
 * Supports dynamically expanding the storage volume (if needed).
 * Uses persistent storage to retain data between re-scheduling.
-* Supports HTTP ingress routing for external access without requiring an
-  additional LoadBalancer (optional)
+* Supports HTTP ingress routing for external access without requiring an additional LoadBalancer (optional)
 * Supports HTTP Basic Auth for accessing the prometheus API & UI 🔐.
 * Restrict HTTP access by ip block(s) (optional).
+
+```sql
+topk(20, count by (__name__, job)({__name__=~".+"}))
+```
 
 ### Preparing to run the module
 
@@ -44,9 +47,9 @@ variable "cluster_name" {
 # Retrieve authentication for kubernetes from aws.
 #
 provider "aws" {
-    
+
     profile = "someprofile-changeme"
-    region = "us-east-1-changeme"
+    region  = "us-east-1-changeme"
 
 }
 
@@ -98,10 +101,10 @@ provider "kubernetes-alpha" {
 
 ```hcl
 module "monitoring-prometheus" {
-  
+
     source  = "mateothegreat/monitoring-prometheus/kubernetes"
     version = "replace me (see: https://registry.terraform.io/modules/mateothegreat/monitoring-prometheus/kubernetes/latest)"
-    
+
     name              = "prometheus-1"
     namespace         = "m-1"
     retention         = "7d"
@@ -138,13 +141,14 @@ module "monitoring-prometheus" {
             response_header_timeout: 2m
             insecure_skip_verify: false
     YAML
-    
+
 }
 ```
+
 ## S3
 
-In order for thanos-sidecar to upload prometheus data to S3 you need to setup
-a policy like this and update the credentials (above) assigned to it:
+In order for thanos-sidecar to upload prometheus data to S3 you need to setup a policy like this and update the
+credentials (above) assigned to it:
 
 ```json
 {
@@ -171,6 +175,7 @@ a policy like this and update the credentials (above) assigned to it:
 ---
 
 <!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
 | Name | Version |
@@ -252,4 +257,5 @@ No outputs.
                                         | $$                                                                     
                                         |__/                                                                     
 ```
+
 https://matthewdavis.io

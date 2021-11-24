@@ -88,7 +88,7 @@ variable "image" {
 
     type        = string
     description = "https://github.com/prometheus/prometheus/releases"
-    default     = "quay.io/prometheus/prometheus:v2.25.2"
+    default     = "quay.io/prometheus/prometheus:v2.31.1"
 
 }
 
@@ -116,22 +116,6 @@ variable "node_selector" {
 
 }
 
-variable "loadbalancer_enabled" {
-
-    type        = bool
-    description = "if enabled creates a LoadBalancer service to access the prometheus ui/api"
-    default     = false
-
-}
-
-variable "loadbalancer_internal" {
-
-    type        = bool
-    description = "if enabled creates a LoadBalancer service to access the prometheus ui/api"
-    default     = false
-
-}
-
 variable "ingress_enabled" {
 
     type        = bool
@@ -148,12 +132,11 @@ variable "ingress_whitelist" {
 
 }
 
-
 variable "thanos_image" {
 
     type        = string
     description = "thanos query image"
-    default     = "quay.io/thanos/thanos:v0.19.0"
+    default     = "quay.io/thanos/thanos:v0.23.1"
 
 }
 
@@ -194,5 +177,20 @@ variable "volume_size" {
     type        = string
     description = "persistent volume size"
     default     = "10Gi"
+
+}
+
+variable "s3_aws_access_key_id" {
+
+    type        = string
+    description = "aws access key for storing in s3"
+    default     = ""
+
+}
+variable "s3_aws_secret_access_key" {
+
+    type        = string
+    description = "aws secret key for storing in s3"
+    default     = ""
 
 }

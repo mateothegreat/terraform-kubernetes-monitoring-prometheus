@@ -2,7 +2,7 @@ resource "kubernetes_service_account" "prometheus" {
 
     metadata {
 
-        name = var.name
+        name      = var.name
         namespace = var.namespace
 
     }

@@ -1,3 +1,27 @@
+provider "aws" {
+
+    alias   = "mlfabric"
+    profile = "mlfabric"
+    region  = "us-east-1"
+
+}
+
+data "aws_secretsmanager_secret" "thanos-write" {
+
+    provider = aws.mlfabric
+
+    name = "mlfabric-monitoring-platform-thanos-write"
+
+}
+
+data "aws_secretsmanager_secret_version" "thanos-write" {
+
+    provider = aws.mlfabric
+
+    secret_id = data.aws_secretsmanager_secret.thanos-write.id
+
+}
+
 resource "kubernetes_secret" "obstore-config" {
 
     metadata {
@@ -13,14 +37,7 @@ resource "kubernetes_secret" "obstore-config" {
 
             type = "s3"
 
-            config = {
-
-                bucket     = "mlfabric-devops-monitoring-thanos-1"
-                endpoint   = "s3.us-east-1.amazonaws.com"
-                access_key = var.s3_aws_access_key_id
-                secret_key = var.s3_aws_secret_access_key
-
-            }
+            config = jsondecode(data.aws_secretsmanager_secret_version.thanos-write.secret_string)
 
         })
 

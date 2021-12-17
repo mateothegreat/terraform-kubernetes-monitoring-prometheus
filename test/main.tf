@@ -43,7 +43,7 @@ module "prometheus" {
     name            = "prometheus-1"
     retention       = "14d"
     namespace       = "default"
-    volume_size     = 100
+    volume_size     = "100Gi"
     limit_memory    = "5Gi"
     scrape_interval = "30s"
 

@@ -23,6 +23,21 @@ resource "kubernetes_config_map" "global-config" {
 
                 {
 
+                    job_name = "ingress-controller"
+
+                    static_configs = [
+
+                        {
+
+                            targets = [ "ingress-controller-metrics.default.svc.cluster.local:10254" ]
+
+                        }
+
+                    ]
+
+                },
+                {
+
                     job_name = "elasticsearch"
 
                     static_configs = [

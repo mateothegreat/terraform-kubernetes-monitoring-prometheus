@@ -124,6 +124,14 @@ variable "ingress_enabled" {
 
 }
 
+variable "service_type" {
+
+    type        = string
+    description = "service type (i.e.: LoadBalancer or ClusterIP"
+    default     = "ClusterIP"
+
+}
+
 variable "ingress_whitelist" {
 
     type        = string
@@ -192,5 +200,13 @@ variable "s3_aws_secret_access_key" {
     type        = string
     description = "aws secret key for storing in s3"
     default     = ""
+
+}
+
+variable "ingress_class_name" {
+
+    type        = string
+    description = "ingress class name"
+    default     = null
 
 }

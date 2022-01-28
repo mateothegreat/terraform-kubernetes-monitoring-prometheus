@@ -5,7 +5,8 @@ variable "cluster_name" {}
 #
 provider "aws" {
 
-    region = "us-east-1"
+    profile = "maa-ml-esg"
+    region  = "us-east-1"
 
 }
 
@@ -40,13 +41,14 @@ module "prometheus" {
 
     source = "../"
 
-    name            = "prometheus-1"
-    retention       = "14d"
-    namespace       = "default"
-    volume_size     = "100Gi"
-    limit_memory    = "5Gi"
-    scrape_interval = "30s"
-
+    name                      = "prometheus"
+    retention                 = "7d"
+    namespace                 = "default"
+    volume_size               = "100Gi"
+    limit_memory              = "5Gi"
+    scrape_interval           = "30s"
+    ingress_enabled           = true
+    ingress_class_name        = "ops"
     additional_scrape_configs = [ ]
 
     node_selector = {
@@ -57,8 +59,8 @@ module "prometheus" {
 
     external_labels = {
 
-        cluster = "my-cluster-2"
-        product = "api beep boop"
+        cluster = "maa-ml-esg-dev"
+        product = "esg"
 
     }
 

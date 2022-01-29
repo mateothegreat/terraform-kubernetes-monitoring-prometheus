@@ -148,6 +148,14 @@ variable "thanos_image" {
 
 }
 
+variable "thanos_secret_config" {
+
+    type        = string
+    description = "thanos config"
+    default     = null
+
+}
+
 variable "replicas" {
 
     type        = number

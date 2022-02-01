@@ -9,7 +9,7 @@ resource "kubernetes_persistent_volume_claim" "data" {
 
     spec {
 
-        storage_class_name = "gp2"
+        storage_class_name = var.name
 
         access_modes = [ "ReadWriteOnce" ]
 

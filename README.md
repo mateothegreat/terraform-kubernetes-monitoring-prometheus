@@ -132,6 +132,8 @@ module "monitoring-prometheus" {
 
 ## S3
 
+> See https://thanos.io/tip/thanos/storage.md/#s3.
+
 In order for thanos-sidecar to upload prometheus data to S3 you need to setup a policy like this and update the
 credentials (above) assigned to it:
 
@@ -156,4 +158,3 @@ credentials (above) assigned to it:
     ]
 }
 ```
-

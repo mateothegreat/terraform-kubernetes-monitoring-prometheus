@@ -9,12 +9,7 @@ resource "kubernetes_secret" "obstore-config" {
 
     data = {
 
-        "objstore.yaml" = yamlencode({
-
-            type   = "s3"
-            config = var.thanos_secret_config
-
-        })
+        "objstore.yaml" = yamlencode(var.thanos_secret_config)
 
     }
 

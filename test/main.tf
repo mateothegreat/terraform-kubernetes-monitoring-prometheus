@@ -44,8 +44,8 @@ module "prometheus" {
     name                      = "prometheus"
     retention                 = "7d"
     namespace                 = "default"
-    volume_size               = "100Gi"
-    limit_memory              = "5Gi"
+    volume_size               = "10Gi"
+    limit_memory              = "1Gi"
     scrape_interval           = "30s"
     ingress_enabled           = true
     ingress_class_name        = "ops"
@@ -62,6 +62,19 @@ module "prometheus" {
         cluster = "maa-ml-esg-dev"
         product = "esg"
 
+    }
+
+    thanos_secret_config = {
+
+        type   = "s3"
+        config = {
+
+            bucket     = "changeme"
+            endpoint   = "s3.us-east-1.amazonaws.com"
+            access_key = "changeme"
+            secret_key = "changeme"
+
+        }
     }
 
 }

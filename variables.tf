@@ -150,8 +150,20 @@ variable "thanos_image" {
 
 variable "thanos_secret_config" {
 
-    type        = string
-    description = "thanos config"
+    type = object({
+
+        type   = string
+        config = object({
+
+            bucket     = string
+            endpoint   = string
+            access_key = string
+            secret_key = string
+        })
+
+    })
+
+    description = "thanos config (see: https://thanos.io/tip/thanos/storage.md/#s3)"
     default     = null
 
 }

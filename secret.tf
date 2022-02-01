@@ -9,18 +9,10 @@ resource "kubernetes_secret" "obstore-config" {
 
     data = {
 
-        "objstore.yaml" = jsonencode({
+        "objstore.yaml" = yamlencode({
 
-            type = "s3"
-
-            config = {
-
-                bucket     = "mlfabric-devops-monitoring-thanos-1"
-                endpoint   = "s3.us-east-1.amazonaws.com"
-                access_key = var.s3_aws_access_key_id
-                secret_key = var.s3_aws_secret_access_key
-
-            }
+            type   = "s3"
+            config = var.thanos_secret_config
 
         })
 

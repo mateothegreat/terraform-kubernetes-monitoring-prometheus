@@ -22,7 +22,7 @@ resource "kubernetes_service" "prometheus" {
 
     spec {
 
-        type = "LoadBalancer"
+        type = var.service_type
 
         selector = {
 

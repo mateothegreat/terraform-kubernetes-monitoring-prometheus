@@ -9,6 +9,8 @@ resource "kubernetes_ingress" "ingress" {
 
         annotations = {
 
+            "kubernetes.io/ingress.class" = var.ingress_class_name
+
             "nginx.ingress.kubernetes.io/whitelist-source-range" = var.ingress_whitelist
             #            "nginx.ingress.kubernetes.io/auth-type"              = "basic"
             #            "nginx.ingress.kubernetes.io/auth-secret"            = length(var.username) > 0 && length(var.password) > 0 ? "${ var.name }-basicauth" : null

@@ -29,7 +29,7 @@ resource "kubernetes_config_map" "global-config" {
 
                         {
 
-                            targets = [ "ingress-controller-metrics.default.svc.cluster.local:10254" ]
+                            targets = var.default_ingress_scrape_targets
 
                         }
 
@@ -44,7 +44,7 @@ resource "kubernetes_config_map" "global-config" {
 
                         {
 
-                            targets = [ "elasticsearch-exporter.monitoring.svc.cluster.local:9114" ]
+                            targets = var.default_elasticsearch_scrape_targets
 
                         }
 
@@ -59,7 +59,7 @@ resource "kubernetes_config_map" "global-config" {
 
                         {
 
-                            targets = [ "rabbitmq.default.svc.cluster.local:15692" ]
+                            targets = var.default_rabbitmq_scrape_targets
 
                         }
 

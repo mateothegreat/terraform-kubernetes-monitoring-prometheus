@@ -75,6 +75,7 @@ module "prometheus" {
             secret_key = "changeme"
 
         }
+
     }
 
 }

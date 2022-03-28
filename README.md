@@ -1,5 +1,7 @@
 # Prometheus deployment kit for production instrumented by Terraform
 
+https://app.terraform.io/app/MAA-ML-DEVOPS/registry/modules/private/MAA-ML-DEVOPS/monitoring-prometheus/kubernetes
+
 ```text
 ┌──────────────────────┐  ┌────────────┬─────────┐   ┌────────────┐
 │ Google Cloud Storage │  │ Prometheus │ Sidecar │   │    Rule    │

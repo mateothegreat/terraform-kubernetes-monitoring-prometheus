@@ -230,3 +230,27 @@ variable "ingress_class_name" {
     default     = null
 
 }
+
+variable "default_ingress_scrape_targets" {
+
+    type = list(string)
+    description = "Default ingress scrape targets"
+    default = [ "ingress-controller-metrics.default.svc.cluster.local:10254" ]
+
+}
+
+variable "default_elasticsearch_scrape_targets" {
+
+    type = list(string)
+    description = "Default elasticsearch scrape targets"
+    default = [ "elasticsearch-exporter.monitoring.svc.cluster.local:9114" ]
+
+}
+
+variable "default_rabbitmq_scrape_targets" {
+
+    type = list(string)
+    description = "Default rabbitmq scrape targets"
+    default = [ "rabbitmq.default.svc.cluster.local:15692" ]
+
+}
